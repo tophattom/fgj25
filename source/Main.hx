@@ -2,7 +2,6 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxGame;
-import flixel.system.scaleModes.PixelPerfectScaleMode;
 import openfl.display.Sprite;
 
 class Main extends Sprite {
