@@ -1,0 +1,23 @@
+{
+	"lineEnds": {
+		"leftCurly": "after",
+		"rightCurly": "both",
+		"objectLiteralCurly": {
+			"leftCurly": "after"
+		}
+	},
+  "whitespace": {
+    "bracesConfig": {
+      "objectLiteralBraces": {
+        "closingPolicy": "before",
+        "openingPolicy": "after"
+      }
+    }
+  },
+	"sameLine": {
+		"ifElse": "same",
+		"doWhile": "next",
+		"tryBody": "next",
+		"tryCatch": "next"
+	}
+}
