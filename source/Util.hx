@@ -9,6 +9,10 @@ class Util {
 		return Math.floor(max * Math.random());
 	}
 
+	public static function randomBetween(min:Float, max:Float):Float {
+		return min + Math.random() * (max - min);
+	}
+
 	public static function randomChoice<T>(arr:Array<T>):T {
 		return arr[randomInt(arr.length)];
 	}

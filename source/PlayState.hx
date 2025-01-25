@@ -1,16 +1,13 @@
 package;
 
+import Creature.CreatureType;
 import Creature.Dir;
 import flixel.FlxCamera.FlxCameraFollowStyle;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.group.FlxContainer;
-import flixel.group.FlxSpriteContainer;
 import flixel.math.FlxPoint;
 import flixel.system.scaleModes.PixelPerfectScaleMode;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import openfl.filters.ShaderFilter;
 
@@ -30,7 +27,7 @@ class PlayState extends FlxState {
 
 	var depthShader:DepthShader;
 
-	var CREATURE_SPRITES:Array<FlxSprite>;
+	var CREATURE_TYPES:Array<CreatureType>;
 
 	override public function create() {
 		super.create();
@@ -71,23 +68,7 @@ class PlayState extends FlxState {
 		FlxG.camera.filters = [new ShaderFilter(depthShader)];
 		FlxG.camera.filtersEnabled = true;
 
-		// Creature sprites setup
-		var medusa = new FlxSprite();
-		medusa.loadGraphic(AssetPaths.medusa__png, true, 56, 92);
-		medusa.animation.add('swim', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5);
-		medusa.animation.play('swim');
-
-		var perch = new FlxSprite();
-		perch.loadGraphic(AssetPaths.ahven__png, true, 32, 32);
-		perch.animation.add('swim', [0, 1, 2, 3, 4, 5, 6], 5);
-		perch.animation.play('swim');
-
-		var swordfish = new FlxSprite();
-		swordfish.loadGraphic(AssetPaths.swordfish__png, true, 64, 64);
-		swordfish.animation.add('swim', [0, 1, 2, 3, 4, 5], 5);
-		swordfish.animation.play('swim');
-
-		CREATURE_SPRITES = [medusa, perch, swordfish];
+		CREATURE_TYPES = Creature.getCreatureTypes();
 	}
 
 	override public function update(elapsed:Float) {
@@ -106,11 +87,11 @@ class PlayState extends FlxState {
 			w.setCaveWidth(caveWidth);
 		}
 
-		depthShader.setDepth(Math.abs(bell.y) * 5);
+		depthShader.setDepth(Math.abs(bell.y));
 
 		for (layer in creatureLayers) {
-			if (Math.random() < 0.01) {
-				spawnCreature(layer);
+			if (Math.random() < 0.006) {
+				spawnCreature(layer, bell.y);
 			}
 		}
 	}
@@ -120,14 +101,21 @@ class PlayState extends FlxState {
 		return MAX_CAVE_WIDTH;
 	}
 
-	private function spawnCreature(layer:CreatureLayer) {
-		var type = Util.randomChoice(CREATURE_SPRITES);
+	private function spawnCreature(layer:CreatureLayer, depth:Float) {
+		var p = Math.random();
+		var type = Util.randomChoice(CREATURE_TYPES.filter((t) -> depth >= t.min_depth && p <= t.probability));
+
+		if (type == null) {
+			return;
+		}
+
 		var dir = Math.random() <= 0.5 ? Dir.RIGHT : Dir.LEFT;
 		var x = dir == Dir.RIGHT ? FlxG.camera.viewLeft - 10 : FlxG.camera.viewRight + 10;
 		var y = FlxG.camera.viewTop + Math.random() * Util.SCREEN_HEIGHT;
+		var speed = Util.randomBetween(type.speed_min, type.speed_max);
 
-		var creature = new Creature(x, y, new FlxPoint(10, 0), dir);
-		creature.loadGraphicFromSprite(type);
+		var creature = new Creature(x, y, new FlxPoint(speed, 0), dir);
+		creature.loadGraphicFromSprite(type.sprite);
 
 		layer.add(creature);
 	}

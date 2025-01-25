@@ -37,7 +37,7 @@ class DepthShader extends FlxShader {
         float g = 1.0 - easeInCubic(normalizedDepth);
         float b = 1.0 - easeInExpo(normalizedDepth);
 
-        gl_FragColor = color * vec4(0.8 * r, 0.9 * g, 1.0 * b, 1);
+        gl_FragColor = color * vec4(0.8 * r, 0.9 * g, 1.0 * b, color.a);
     }
     ')
 	public function new(d:Float = 0.0) {
