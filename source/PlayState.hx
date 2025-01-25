@@ -67,7 +67,9 @@ class PlayState extends FlxState {
 		tether.loadGraphic(AssetPaths.tether__png);
 
 		// This will be autodestroyed after fade
-		var firstText = new ZoneTitle(bell.y, Texts.chapter1);
+		var firstText = ZoneTitle.create(bell.y, Texts.chapter1);
+		firstText.x = -firstText.width / 2 + bell.width / 2;
+		firstText.y = 80;
 
 		ui = new UI();
 		ui.camera = uiCamera;
@@ -84,7 +86,7 @@ class PlayState extends FlxState {
 		add(bell);
 		add(ui);
 
-		FlxG.camera.follow(bell, FlxCameraFollowStyle.LOCKON);
+		FlxG.camera.follow(bell, FlxCameraFollowStyle.NO_DEAD_ZONE);
 		FlxG.camera.targetOffset.set(0, 0);
 
 		depthShader = new DepthShader();
