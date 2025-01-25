@@ -18,6 +18,9 @@ class PlayState extends FlxState {
 
 	static inline var BELL_SPEED = 10;
 
+	static inline var DEPTH_MULTIPLIER = 2;
+	static inline var MAX_DEPTH = 8740;
+
 	var wallLayers:Array<WallLayer>;
 	var creatureLayers:Array<CreatureLayer>;
 
@@ -60,6 +63,9 @@ class PlayState extends FlxState {
 
 		creatureLayers = [new CreatureLayer(3), new CreatureLayer(2), new CreatureLayer(1),];
 
+		// This will be autodestroyed after fade
+		var firstText = new ZoneTitle(0, 0, "The Abyss", false);
+
 		bell = new FlxSprite(0, 0);
 		bell.loadGraphic(AssetPaths.bell__png);
 
@@ -76,6 +82,7 @@ class PlayState extends FlxState {
 		add(wallLayers[1]);
 		add(creatureLayers[2]);
 		add(wallLayers[2]);
+		add(firstText);
 		add(tether);
 		add(bell);
 		add(ui);
@@ -93,7 +100,9 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if (FlxG.keys.anyPressed([S, DOWN])) {
+		var depth = getDepth();
+
+		if (FlxG.keys.anyPressed([S, DOWN]) && depth < MAX_DEPTH) {
 			bell.velocity.y = BELL_SPEED;
 		} else {
 			bell.velocity.y = 0;
@@ -101,16 +110,18 @@ class PlayState extends FlxState {
 
 		tether.y = bell.y - 150;
 
-		var caveWidth = getCaveWidth(bell.y);
+		ui.setDepth(depth);
+
+		var caveWidth = getCaveWidth(depth);
 		for (w in wallLayers) {
 			w.setCaveWidth(caveWidth);
 		}
 
-		depthShader.setDepth(Math.abs(bell.y));
+		depthShader.setDepth(depth);
 
 		for (layer in creatureLayers) {
 			if (Math.random() < 0.006) {
-				spawnCreature(layer, bell.y);
+				spawnCreature(layer, depth);
 			}
 		}
 	}
@@ -138,5 +149,10 @@ class PlayState extends FlxState {
 		creature.alpha = type.alpha;
 
 		layer.add(creature);
+	}
+
+	// Depth in meters
+	private function getDepth():Float {
+		return Math.abs(bell.y * DEPTH_MULTIPLIER);
 	}
 }
