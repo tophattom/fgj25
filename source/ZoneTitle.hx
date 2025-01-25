@@ -16,8 +16,6 @@ class ZoneTitle {
 		var bmFont = FlxBitmapFont.fromAngelCode(AssetPaths.notjamuicondensed19__png, AssetPaths.notjamuicondensed19__fnt);
 		var textObj = new FlxBitmapText(0, 0, text, bmFont);
 		textObj.color = Colors.TEXT_COLOR;
-		textObj.background = true;
-		textObj.backgroundColor = 0xFF0000;
 		textObj.borderStyle = OUTLINE;
 		textObj.drawFrame(true);
 
