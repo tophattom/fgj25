@@ -6,8 +6,10 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.system.scaleModes.PixelPerfectScaleMode;
+import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import openfl.filters.ShaderFilter;
 
@@ -126,9 +128,9 @@ class PlayState extends FlxState {
 		}
 	}
 
-	private function getCaveWidth(y:Float):Float {
-		// TODO: Make it narrower the deeper we go
-		return MAX_CAVE_WIDTH;
+	private function getCaveWidth(d:Float):Float {
+		var ratio = d / GameData.MaxDepth;
+		return FlxMath.lerp(MAX_CAVE_WIDTH, MIN_CAVE_WIDTH, FlxEase.cubeIn(ratio));
 	}
 
 	private function spawnCreature(layer:CreatureLayer, depth:Float) {
