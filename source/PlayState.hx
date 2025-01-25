@@ -6,6 +6,7 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.graphics.frames.FlxBitmapFont;
 import flixel.math.FlxPoint;
 import flixel.system.scaleModes.PixelPerfectScaleMode;
 import flixel.util.FlxColor;
@@ -48,6 +49,8 @@ class PlayState extends FlxState {
 		FlxG.cameras.add(uiCamera, false);
 
 		FlxG.camera = defaultCamera;
+
+		var bmFont = FlxBitmapFont.fromAngelCode(AssetPaths.font__png, AssetPaths.font__fnt);
 
 		wallLayers = [
 			new WallLayer(AssetPaths.wall_3_left__png, AssetPaths.wall_3_right__png, 2),
