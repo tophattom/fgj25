@@ -42,6 +42,7 @@ class PlayState extends FlxState {
 	var CREATURE_TYPES:Array<CreatureType>;
 
 	var music:FlxSound;
+	var winchSound:FlxSound;
 
 	override public function create() {
 		super.create();
@@ -106,6 +107,10 @@ class PlayState extends FlxState {
 			music = FlxG.sound.play(AssetPaths.ambientloop__ogg, 0.0, true);
 			music.fadeIn(300, 0, 100);
 		}
+
+		if (winchSound == null) {
+			winchSound = FlxG.sound.play(AssetPaths.winchloop__ogg, 0.0, true);
+		}
 	}
 
 	override public function update(elapsed:Float) {
@@ -121,6 +126,12 @@ class PlayState extends FlxState {
 			bell.acceleration.set(0, BELL_ACCELERATION);
 		} else {
 			bell.acceleration.set(0, 0);
+		}
+
+		if (FlxG.keys.anyJustPressed([S, DOWN])) {
+			winchSound.fadeIn(1.0);
+		} else if (FlxG.keys.anyJustReleased([S, DOWN])) {
+			winchSound.fadeOut(1.0);
 		}
 
 		titleManager.setDepth(depth, bell.y);
