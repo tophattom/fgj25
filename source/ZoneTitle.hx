@@ -15,7 +15,7 @@ class ZoneTitle {
 	public static function create(y:Float, text:String, autoFade:Bool = true):FlxSprite {
 		var bmFont = FlxBitmapFont.fromAngelCode(AssetPaths.notjamuicondensed19__png, AssetPaths.notjamuicondensed19__fnt);
 		var textObj = new FlxBitmapText(0, 0, text, bmFont);
-		textObj.color = 0xe9dfda;
+		textObj.color = Colors.TEXT_COLOR;
 		textObj.background = true;
 		textObj.backgroundColor = 0xFF0000;
 		textObj.borderStyle = OUTLINE;

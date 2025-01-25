@@ -67,7 +67,7 @@ class PlayState extends FlxState {
 		tether.loadGraphic(AssetPaths.tether__png);
 
 		// This will be autodestroyed after fade
-		var firstText = ZoneTitle.create(bell.y, Texts.chapter1);
+		var firstText = ZoneTitle.create(bell.y, GameData.Zones[0].title);
 		firstText.x = -firstText.width / 2 + bell.width / 2;
 		firstText.y = 80;
 
