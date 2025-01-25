@@ -9,6 +9,11 @@ typedef Zone = {
 	var allowReturn:Bool;
 }
 
+typedef ZoneLimit = {
+	min:Float,
+	max:Float,
+}
+
 class GameData {
 	public static inline var MaxDepth = 8740;
 
@@ -101,8 +106,26 @@ class GameData {
 		}
 	];
 
+	public static var ZonePixelLimits = getZonePixelLimits();
+
+	private static function getZonePixelLimits():Array<ZoneLimit> {
+		var result:Array<ZoneLimit> = [];
+		var startY = 0.0;
+		for (i in 0...Zones.length) {
+			var currentZone = Zones[i];
+			var nextZone = (i + 1) < Zones.length ? Zones[i + 1] : null;
+			var nextStartDepth = nextZone == null ? MaxDepth : nextZone.depth;
+
+			var max = startY + (nextStartDepth - currentZone.depth) / currentZone.depthMultiplier;
+			result.push({ min: startY, max: max });
+			startY = max;
+		}
+
+		return result;
+	}
+
 	public static function getZoneIndex(depth:Float):Int {
-		for (i in 0...Zones.length - 2) {
+		for (i in 0...Zones.length - 1) {
 			if (depth < Zones[i + 1].depth) {
 				return i;
 			}
