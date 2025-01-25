@@ -9,6 +9,7 @@ import flixel.system.scaleModes.PixelPerfectScaleMode;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import openfl.filters.ShaderFilter;
 
 class PlayState extends FlxState {
 	static inline var CAMERA_OFFSET = -Util.SCREEN_HEIGHT / 5;
@@ -20,6 +21,8 @@ class PlayState extends FlxState {
 
 	var bell:FlxSprite;
 
+	var depthShader:DepthShader;
+
 	override public function create() {
 		super.create();
 
@@ -30,7 +33,7 @@ class PlayState extends FlxState {
 
 		walls = new FlxTypedContainer();
 		for (i in 0...3) {
-			walls.add(new Walls(2 - i));
+			walls.add(new Walls(AssetPaths.wall_left__png, AssetPaths.wall_right__png, 2 - i));
 		}
 		add(walls);
 
@@ -41,6 +44,10 @@ class PlayState extends FlxState {
 
 		FlxG.camera.follow(bell, FlxCameraFollowStyle.LOCKON);
 		FlxG.camera.targetOffset.set(0, CAMERA_OFFSET);
+
+		depthShader = new DepthShader();
+		FlxG.camera.filters = [new ShaderFilter(depthShader)];
+		FlxG.camera.filtersEnabled = false;
 	}
 
 	override public function update(elapsed:Float) {
@@ -54,6 +61,8 @@ class PlayState extends FlxState {
 		if (FlxG.keys.justPressed.SPACE) {
 			FlxTween.tween(bell, { "velocity.y": 0 }, 3, { ease: FlxEase.sineOut });
 		}
+
+		depthShader.setDepth(Math.abs(bell.y));
 	}
 
 	private function getCaveWidth(y:Float):Float {

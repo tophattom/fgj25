@@ -2,6 +2,7 @@ package;
 
 import flixel.addons.display.FlxBackdrop;
 import flixel.group.FlxSpriteContainer.FlxTypedSpriteContainer;
+import flixel.system.FlxAssets.FlxGraphicAsset;
 
 class Walls extends FlxTypedSpriteContainer<FlxBackdrop> {
 	var wallLeft:FlxBackdrop;
@@ -9,17 +10,17 @@ class Walls extends FlxTypedSpriteContainer<FlxBackdrop> {
 
 	var xOffset:Float;
 
-	public function new(depth:Float) {
+	public function new(left_asset:FlxGraphicAsset, right_asset:FlxGraphicAsset, depth:Float) {
 		super();
 
 		this.xOffset = depth * 10;
 		this.scrollFactor.y = 1 - depth / 5;
 
-		wallLeft = new FlxBackdrop(AssetPaths.wall_left__png, Y);
+		wallLeft = new FlxBackdrop(left_asset, Y);
 		wallLeft.y = depth * 123;
 		add(wallLeft);
 
-		wallRight = new FlxBackdrop(AssetPaths.wall_right__png, Y);
+		wallRight = new FlxBackdrop(right_asset, Y);
 		wallRight.y = depth * 123;
 		add(wallRight);
 	}
