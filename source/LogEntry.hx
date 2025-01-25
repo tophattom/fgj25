@@ -22,7 +22,7 @@ class LogEntry extends FlxTypedSpriteContainer<FlxSprite> {
 		text.screenCenter(X);
 
 		bg = new FlxSprite(0, 0);
-		bg.loadGraphic(AssetPaths.log_bg__png, false, 320, 180);
+		bg.loadGraphic(AssetPaths.log_bg__png);
 
 		add(bg);
 		add(text);

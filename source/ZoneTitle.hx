@@ -9,8 +9,8 @@ import flixel.tweens.FlxTween;
 import haxe.Timer;
 
 class ZoneTitle {
-	public static inline var FADE_DELAY = 1000;
-	public static inline var FADE_DURATION = 2000 / 1000;
+	public static inline var FADE_DELAY = 3000;
+	public static inline var FADE_DURATION = 3000 / 1000;
 
 	public static function create(y:Float, text:String, autoFade:Bool = true):FlxSprite {
 		var bmFont = FlxBitmapFont.fromAngelCode(AssetPaths.notjamuicondensed19__png, AssetPaths.notjamuicondensed19__fnt);

@@ -23,6 +23,8 @@ class PlayState extends FlxState {
 	var wallLayers:Array<WallLayer>;
 	var creatureLayers:Array<CreatureLayer>;
 
+	var titleManager:ZoneTitleManager;
+
 	var bell:FlxSprite;
 	var tether:FlxSprite;
 
@@ -60,16 +62,13 @@ class PlayState extends FlxState {
 
 		creatureLayers = [new CreatureLayer(3), new CreatureLayer(2), new CreatureLayer(1),];
 
+		titleManager = new ZoneTitleManager();
+
 		bell = new FlxSprite(0, 0);
 		bell.loadGraphic(AssetPaths.bell__png);
 
 		tether = new FlxSprite(0, 0);
 		tether.loadGraphic(AssetPaths.tether__png);
-
-		// This will be autodestroyed after fade
-		var firstText = ZoneTitle.create(bell.y, GameData.Zones[0].title);
-		firstText.x = -firstText.width / 2 + bell.width / 2;
-		firstText.y = 80;
 
 		ui = new UI();
 		ui.camera = uiCamera;
@@ -81,13 +80,13 @@ class PlayState extends FlxState {
 		add(wallLayers[1]);
 		add(creatureLayers[2]);
 		add(wallLayers[2]);
-		add(firstText);
+		add(titleManager);
 		add(tether);
 		add(bell);
 		add(ui);
 
 		FlxG.camera.follow(bell, FlxCameraFollowStyle.NO_DEAD_ZONE);
-		FlxG.camera.targetOffset.set(0, 0);
+		FlxG.camera.targetOffset.set(0, 24);
 
 		depthShader = new DepthShader();
 		FlxG.camera.filters = [new ShaderFilter(depthShader)];
@@ -106,6 +105,8 @@ class PlayState extends FlxState {
 		} else {
 			bell.velocity.y = 0;
 		}
+
+		titleManager.setDepth(depth, bell.y);
 
 		tether.y = bell.y - 150;
 
@@ -152,8 +153,9 @@ class PlayState extends FlxState {
 
 	// Depth in meters
 	private function updateDepth() {
+		var pixelY = bell.y;
 		var currentMultiplier = GameData.getZone(depth).depthMultiplier;
-		depth = Math.min(depth + Math.abs(bell.y - previousPixelY) * currentMultiplier, GameData.MaxDepth);
-		previousPixelY = bell.y;
+		depth = Math.min(depth + (pixelY - previousPixelY) * currentMultiplier, GameData.MaxDepth);
+		previousPixelY = pixelY;
 	}
 }

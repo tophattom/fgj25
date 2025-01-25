@@ -101,13 +101,17 @@ class GameData {
 		}
 	];
 
-	public static function getZone(depth:Float):Zone {
+	public static function getZoneIndex(depth:Float):Int {
 		for (i in 0...Zones.length - 2) {
 			if (depth < Zones[i + 1].depth) {
-				return Zones[i];
+				return i;
 			}
 		}
 
-		return Zones[Zones.length - 1];
+		return Zones.length - 1;
+	}
+
+	public static function getZone(depth:Float):Zone {
+		return Zones[getZoneIndex(depth)];
 	}
 }
