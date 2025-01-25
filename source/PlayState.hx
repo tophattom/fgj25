@@ -111,6 +111,10 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
+		if (FlxG.keys.justPressed.SPACE) {
+			openLogEntry(GameData.getZone(depth).logs[0]);
+		}
+
 		updateDepth();
 
 		if (FlxG.keys.anyPressed([S, DOWN]) && depth < GameData.MaxDepth) {
@@ -170,5 +174,11 @@ class PlayState extends FlxState {
 		var currentMultiplier = GameData.getZone(depth).depthMultiplier;
 		depth = Math.min(depth + (pixelY - previousPixelY) * currentMultiplier, GameData.MaxDepth);
 		previousPixelY = pixelY;
+	}
+
+	private function openLogEntry(text:String) {
+		var entry = new LogEntry(text);
+		entry.camera = uiCamera;
+		openSubState(entry);
 	}
 }

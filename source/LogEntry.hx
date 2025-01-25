@@ -1,18 +1,23 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.group.FlxSpriteContainer.FlxTypedSpriteContainer;
+import flixel.FlxSubState;
 import flixel.text.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
-import flixel.text.FlxText;
 
-class LogEntry extends FlxTypedSpriteContainer<FlxSprite> {
+class LogEntry extends FlxSubState {
 	var bg:FlxSprite;
+	var textString:String;
 	var text:FlxBitmapText;
 
 	public function new(textString:String) {
 		super();
-		this.scrollFactor.set(0, 0);
+		this.textString = textString;
+	}
+
+	override function create() {
+		super.create();
 
 		var bmFont = FlxBitmapFont.fromAngelCode(AssetPaths.notjamoldstyle11__png, AssetPaths.notjamoldstyle11__fnt);
 		text = new FlxBitmapText(0, 24, textString);
@@ -26,5 +31,13 @@ class LogEntry extends FlxTypedSpriteContainer<FlxSprite> {
 
 		add(bg);
 		add(text);
+	}
+
+	override function update(elapsed:Float) {
+		super.update(elapsed);
+
+		if (FlxG.keys.justPressed.SPACE) {
+			close();
+		}
 	}
 }
