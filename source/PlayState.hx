@@ -132,6 +132,7 @@ class PlayState extends FlxState {
 
 		var creature = new Creature(x, y, new FlxPoint(speed, 0), dir);
 		creature.loadGraphicFromSprite(type.sprite);
+		creature.alpha = type.alpha;
 
 		layer.add(creature);
 	}

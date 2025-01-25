@@ -14,6 +14,7 @@ typedef CreatureType = {
 	var speed_max:Float;
 	var min_depth:Float;
 	var probability:Float;
+	var alpha:Float;
 }
 
 class Creature extends FlxSprite {
@@ -61,13 +62,15 @@ class Creature extends FlxSprite {
 				speed_max: 12,
 				min_depth: 0,
 				probability: 0.5,
+				alpha: 0.85,
 			},
 			{
 				sprite: perch,
 				speed_min: 10,
 				speed_max: 20,
 				min_depth: 0,
-				probability: 1.0
+				probability: 1.0,
+				alpha: 1.0,
 			},
 			{
 				sprite: swordfish,
@@ -75,6 +78,7 @@ class Creature extends FlxSprite {
 				speed_max: 20,
 				min_depth: 0,
 				probability: 0.7,
+				alpha: 1.0,
 			},
 			{
 				sprite: whale,
@@ -82,6 +86,7 @@ class Creature extends FlxSprite {
 				speed_max: 8,
 				min_depth: 0,
 				probability: 0.3,
+				alpha: 1.0,
 			},
 			{
 				sprite: translucent,
@@ -89,6 +94,7 @@ class Creature extends FlxSprite {
 				speed_max: 15,
 				min_depth: 100,
 				probability: 0.6,
+				alpha: 0.9,
 			}
 		];
 	}
