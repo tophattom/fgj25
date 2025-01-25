@@ -6,7 +6,6 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.graphics.frames.FlxBitmapFont;
 import flixel.math.FlxPoint;
 import flixel.system.scaleModes.PixelPerfectScaleMode;
 import flixel.util.FlxColor;
@@ -53,8 +52,6 @@ class PlayState extends FlxState {
 
 		FlxG.camera = defaultCamera;
 
-		var bmFont = FlxBitmapFont.fromAngelCode(AssetPaths.font__png, AssetPaths.font__fnt);
-
 		wallLayers = [
 			new WallLayer(AssetPaths.wall_3_left__png, AssetPaths.wall_3_right__png, 2),
 			new WallLayer(AssetPaths.wall_2_left__png, AssetPaths.wall_2_right__png, 1),
@@ -63,14 +60,14 @@ class PlayState extends FlxState {
 
 		creatureLayers = [new CreatureLayer(3), new CreatureLayer(2), new CreatureLayer(1),];
 
-		// This will be autodestroyed after fade
-		var firstText = new ZoneTitle(0, 0, "The Abyss", false);
-
 		bell = new FlxSprite(0, 0);
 		bell.loadGraphic(AssetPaths.bell__png);
 
 		tether = new FlxSprite(0, 0);
 		tether.loadGraphic(AssetPaths.tether__png);
+
+		// This will be autodestroyed after fade
+		var firstText = new ZoneTitle(bell.y, Texts.chapter1);
 
 		ui = new UI();
 		ui.camera = uiCamera;
