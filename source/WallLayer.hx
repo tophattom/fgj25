@@ -16,12 +16,16 @@ class WallLayer extends FlxTypedSpriteContainer<FlxBackdrop> {
 		this.xOffset = Math.pow(depth, 1.5) * 25;
 		this.scrollFactor.y = 1 - depth / 5;
 
+		var depthShader = new DepthShader(depth * 500);
+
 		wallLeft = new FlxBackdrop(left_asset, Y);
 		wallLeft.y = depth * 123;
+		wallLeft.shader = depthShader;
 		add(wallLeft);
 
 		wallRight = new FlxBackdrop(right_asset, Y);
 		wallRight.y = depth * 123;
+		wallRight.shader = depthShader;
 		add(wallRight);
 	}
 

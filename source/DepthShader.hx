@@ -6,9 +6,13 @@ class DepthShader extends FlxShader {
 	@:glFragmentSource('
     #pragma header
 
-    #define MAX_DEPTH 100.0
+    #define MAX_DEPTH 1000.0
 
     uniform float depth;
+
+    float easeInQuad(float x) {
+      return x * x;
+    }
 
     float easeInCubic(float x) {
       return x * x * x;
@@ -28,14 +32,18 @@ class DepthShader extends FlxShader {
 
         vec4 color = flixel_texture2D(bitmap, st);
         float normalizedDepth = depth / MAX_DEPTH;
-        float d = 1.0 - easeInExpo(normalizedDepth);
-        gl_FragColor = color * vec4(0.8, 0.9, 1.0, 1) * d;
+
+        float r = 1.0 - easeInQuad(normalizedDepth);
+        float g = 1.0 - easeInCubic(normalizedDepth);
+        float b = 1.0 - easeInExpo(normalizedDepth);
+
+        gl_FragColor = color * vec4(0.8 * r, 0.9 * g, 1.0 * b, 1);
     }
     ')
-	public function new() {
+	public function new(d:Float = 0.0) {
 		super();
 
-		depth.value = [0.0];
+		depth.value = [d];
 	}
 
 	public function update(elapsed:Float) {}

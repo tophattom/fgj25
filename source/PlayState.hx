@@ -69,7 +69,7 @@ class PlayState extends FlxState {
 
 		depthShader = new DepthShader();
 		FlxG.camera.filters = [new ShaderFilter(depthShader)];
-		FlxG.camera.filtersEnabled = false;
+		FlxG.camera.filtersEnabled = true;
 
 		// Creature sprites setup
 		var medusa = new FlxSprite();
@@ -106,7 +106,7 @@ class PlayState extends FlxState {
 			w.setCaveWidth(caveWidth);
 		}
 
-		depthShader.setDepth(Math.abs(bell.y));
+		depthShader.setDepth(Math.abs(bell.y) * 5);
 
 		for (layer in creatureLayers) {
 			if (Math.random() < 0.01) {
@@ -128,9 +128,6 @@ class PlayState extends FlxState {
 
 		var creature = new Creature(x, y, new FlxPoint(10, 0), dir);
 		creature.loadGraphicFromSprite(type);
-
-		var scale = layer.getScale();
-		creature.scale.set(scale, scale);
 
 		layer.add(creature);
 	}
