@@ -20,8 +20,11 @@ class PlayState extends FlxState {
 	static inline var MIN_CAVE_WIDTH = 420;
 	static inline var MAX_CAVE_WIDTH = 520;
 
-	var walls:Array<Walls>;
+	static inline var BELL_SPEED = 10;
+
+	var wallLayers:Array<WallLayer>;
 	var creatureLayers:Array<CreatureLayer>;
+
 	var bell:FlxSprite;
 
 	var depthShader:DepthShader;
@@ -36,25 +39,24 @@ class PlayState extends FlxState {
 		FlxG.scaleMode = new PixelPerfectScaleMode();
 		FlxG.camera.bgColor = FlxColor.fromRGB(20, 20, 40);
 
-		walls = [
-			new Walls(AssetPaths.wall_3_left__png, AssetPaths.wall_3_right__png, 2),
-			new Walls(AssetPaths.wall_2_left__png, AssetPaths.wall_2_right__png, 1),
-			new Walls(AssetPaths.wall_left__png, AssetPaths.wall_right__png, 0),
+		wallLayers = [
+			new WallLayer(AssetPaths.wall_3_left__png, AssetPaths.wall_3_right__png, 2),
+			new WallLayer(AssetPaths.wall_2_left__png, AssetPaths.wall_2_right__png, 1),
+			new WallLayer(AssetPaths.wall_left__png, AssetPaths.wall_right__png, 0),
 		];
 
 		creatureLayers = [new CreatureLayer(3), new CreatureLayer(2), new CreatureLayer(1),];
 
 		bell = new FlxSprite(0, 0);
 		bell.loadGraphic(AssetPaths.bell__png);
-		bell.velocity.y = 10;
 
 		// Add elements in order from back to front
 		add(creatureLayers[0]);
-		add(walls[0]);
+		add(wallLayers[0]);
 		add(creatureLayers[1]);
-		add(walls[1]);
+		add(wallLayers[1]);
 		add(creatureLayers[2]);
-		add(walls[2]);
+		add(wallLayers[2]);
 		add(bell);
 
 		FlxG.camera.follow(bell, FlxCameraFollowStyle.LOCKON);
@@ -86,13 +88,15 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
-		var caveWidth = getCaveWidth(bell.y);
-		for (w in walls) {
-			w.setCaveWidth(caveWidth);
+		if (FlxG.keys.anyPressed([S, DOWN])) {
+			bell.velocity.y = BELL_SPEED;
+		} else {
+			bell.velocity.y = 0;
 		}
 
-		if (FlxG.keys.justPressed.SPACE) {
-			FlxTween.tween(bell, { "velocity.y": 0 }, 3, { ease: FlxEase.sineOut });
+		var caveWidth = getCaveWidth(bell.y);
+		for (w in wallLayers) {
+			w.setCaveWidth(caveWidth);
 		}
 
 		depthShader.setDepth(Math.abs(bell.y));

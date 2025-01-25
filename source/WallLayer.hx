@@ -4,7 +4,7 @@ import flixel.addons.display.FlxBackdrop;
 import flixel.group.FlxSpriteContainer.FlxTypedSpriteContainer;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
-class Walls extends FlxTypedSpriteContainer<FlxBackdrop> {
+class WallLayer extends FlxTypedSpriteContainer<FlxBackdrop> {
 	var wallLeft:FlxBackdrop;
 	var wallRight:FlxBackdrop;
 
