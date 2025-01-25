@@ -27,7 +27,7 @@ class ZoneTitleManager extends FlxTypedSpriteContainer<FlxSprite> {
 		zoneTitle.scale.set(2, 2);
 
 		sound.play(true);
-		Timer.delay(() -> add(zoneTitle), 2400);
+		Timer.delay(() -> add(zoneTitle), 2200);
 	}
 
 	public function setDepth(depth:Float, pixelY:Float) {
