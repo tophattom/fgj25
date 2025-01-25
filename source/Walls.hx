@@ -13,7 +13,7 @@ class Walls extends FlxTypedSpriteContainer<FlxBackdrop> {
 	public function new(left_asset:FlxGraphicAsset, right_asset:FlxGraphicAsset, depth:Float) {
 		super();
 
-		this.xOffset = depth * 10;
+		this.xOffset = Math.pow(depth, 1.5) * 25;
 		this.scrollFactor.y = 1 - depth / 5;
 
 		wallLeft = new FlxBackdrop(left_asset, Y);

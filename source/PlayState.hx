@@ -14,7 +14,7 @@ import openfl.filters.ShaderFilter;
 class PlayState extends FlxState {
 	static inline var CAMERA_OFFSET = -Util.SCREEN_HEIGHT / 5;
 
-	static inline var MIN_CAVE_WIDTH = 390;
+	static inline var MIN_CAVE_WIDTH = 420;
 	static inline var MAX_CAVE_WIDTH = 520;
 
 	var walls:FlxTypedContainer<Walls>;
@@ -32,9 +32,9 @@ class PlayState extends FlxState {
 		FlxG.camera.bgColor = FlxColor.fromRGB(20, 20, 40);
 
 		walls = new FlxTypedContainer();
-		for (i in 0...3) {
-			walls.add(new Walls(AssetPaths.wall_left__png, AssetPaths.wall_right__png, 2 - i));
-		}
+		walls.add(new Walls(AssetPaths.wall_3_left__png, AssetPaths.wall_3_right__png, 2));
+		walls.add(new Walls(AssetPaths.wall_2_left__png, AssetPaths.wall_2_right__png, 1));
+		walls.add(new Walls(AssetPaths.wall_left__png, AssetPaths.wall_right__png, 0));
 		add(walls);
 
 		bell = new FlxSprite(0, 0);
