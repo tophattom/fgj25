@@ -14,7 +14,7 @@ class CreatureLayer extends FlxTypedSpriteContainer<FlxSprite> {
 		this.depth = depth;
 		this.scrollFactor.y = 1 - depth / 5;
 
-		this.depthShader = new DepthShader(depth * 350);
+		this.depthShader = new DepthShader(depth * 1000);
 	}
 
 	override function add(Sprite:FlxSprite):FlxSprite {
