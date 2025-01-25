@@ -17,8 +17,8 @@ class PlayState extends FlxState {
 
 	static inline var BELL_SPEED = 10;
 
-	static inline var DEPTH_MULTIPLIER = 2;
-	static inline var MAX_DEPTH = 8740;
+	var previousPixelY = 0.0;
+	var depth = 0.0;
 
 	var wallLayers:Array<WallLayer>;
 	var creatureLayers:Array<CreatureLayer>;
@@ -99,9 +99,9 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
-		var depth = getDepth();
+		updateDepth();
 
-		if (FlxG.keys.anyPressed([S, DOWN]) && depth < MAX_DEPTH) {
+		if (FlxG.keys.anyPressed([S, DOWN]) && depth < GameData.MaxDepth) {
 			bell.velocity.y = BELL_SPEED;
 		} else {
 			bell.velocity.y = 0;
@@ -151,7 +151,9 @@ class PlayState extends FlxState {
 	}
 
 	// Depth in meters
-	private function getDepth():Float {
-		return Math.abs(bell.y * DEPTH_MULTIPLIER);
+	private function updateDepth() {
+		var currentMultiplier = GameData.getZone(depth).depthMultiplier;
+		depth = Math.min(depth + Math.abs(bell.y - previousPixelY) * currentMultiplier, GameData.MaxDepth);
+		previousPixelY = bell.y;
 	}
 }

@@ -28,7 +28,7 @@ class GameData {
 		},
 		{
 			depth: 200,
-			depthMultiplier: 3,
+			depthMultiplier: 4,
 			title: "II. THE MESOPELAGIC ZONE",
 			logs: [
 				"10/28/1991\n\nWhy is everyone tense?",
@@ -40,7 +40,7 @@ class GameData {
 		},
 		{
 			depth: 1000,
-			depthMultiplier: 5,
+			depthMultiplier: 8,
 			title: "III. THE BATHYPELAGIC ZONE",
 			logs: [
 				"11/25/1991\n\nI can't work with this lack of respect. Feeling my passion for marine geology fade away is torture.",
@@ -52,7 +52,7 @@ class GameData {
 		},
 		{
 			depth: 4000,
-			depthMultiplier: 4,
+			depthMultiplier: 7,
 			title: "IV. THE ABYSSOPELAGIC ZONE",
 			logs: [
 				"you\n    dont\n    understand\nthe\n      depths",
@@ -65,7 +65,7 @@ class GameData {
 		},
 		{
 			depth: 6000,
-			depthMultiplier: 3,
+			depthMultiplier: 7,
 			title: "V. THE HADOPELAGIC ZONE",
 			logs: [
 				"you\n   are\n    not\n     a\n      deep\nsea       \nresearcher",
@@ -79,7 +79,7 @@ class GameData {
 		},
 		{
 			depth: 8000,
-			depthMultiplier: 2,
+			depthMultiplier: 4,
 			title: "VI. THE DEMERSAL ZONE",
 			logs: [
 				"why\n      do\n      you\n      keep on\n            descending",
@@ -90,7 +90,7 @@ class GameData {
 		},
 		{
 			depth: 8600,
-			depthMultiplier: 0.5,
+			depthMultiplier: 2,
 			title: "VII. THE BENTHIC ZONE",
 			logs: [
 				"02/14/1992\n\nI smashed the nav station to pieces.\n\nThey had their chance.",
@@ -100,4 +100,14 @@ class GameData {
 			allowReturn: false
 		}
 	];
+
+	public static function getZone(depth:Float):Zone {
+		for (i in 0...Zones.length - 2) {
+			if (depth < Zones[i + 1].depth) {
+				return Zones[i];
+			}
+		}
+
+		return Zones[Zones.length - 1];
+	}
 }

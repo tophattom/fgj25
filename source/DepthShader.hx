@@ -6,7 +6,7 @@ class DepthShader extends FlxShader {
 	@:glFragmentSource('
     #pragma header
 
-    #define MAX_DEPTH 1000.0
+    #define MAX_DEPTH 8740.0
 
     uniform float depth;
 
