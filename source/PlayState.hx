@@ -8,6 +8,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
+import flixel.sound.FlxSound;
 import flixel.system.scaleModes.PixelPerfectScaleMode;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
@@ -39,6 +40,8 @@ class PlayState extends FlxState {
 	var depthShader:DepthShader;
 
 	var CREATURE_TYPES:Array<CreatureType>;
+
+	var music:FlxSound;
 
 	override public function create() {
 		super.create();
@@ -98,6 +101,11 @@ class PlayState extends FlxState {
 		FlxG.camera.filtersEnabled = true;
 
 		CREATURE_TYPES = Creature.getCreatureTypes();
+
+		if (music == null) {
+			music = FlxG.sound.play(AssetPaths.ambientloop__ogg, 0.0, true);
+			music.fadeIn(300, 0, 100);
+		}
 	}
 
 	override public function update(elapsed:Float) {
