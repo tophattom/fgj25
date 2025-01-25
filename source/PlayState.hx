@@ -26,6 +26,7 @@ class PlayState extends FlxState {
 	var creatureLayers:Array<CreatureLayer>;
 
 	var bell:FlxSprite;
+	var tether:FlxSprite;
 
 	var depthShader:DepthShader;
 
@@ -50,6 +51,9 @@ class PlayState extends FlxState {
 		bell = new FlxSprite(0, 0);
 		bell.loadGraphic(AssetPaths.bell__png);
 
+		tether = new FlxSprite(0, 0);
+		tether.loadGraphic(AssetPaths.tether__png);
+
 		// Add elements in order from back to front
 		add(creatureLayers[0]);
 		add(wallLayers[0]);
@@ -57,6 +61,7 @@ class PlayState extends FlxState {
 		add(wallLayers[1]);
 		add(creatureLayers[2]);
 		add(wallLayers[2]);
+		add(tether);
 		add(bell);
 
 		FlxG.camera.follow(bell, FlxCameraFollowStyle.LOCKON);
@@ -93,6 +98,8 @@ class PlayState extends FlxState {
 		} else {
 			bell.velocity.y = 0;
 		}
+
+		tether.y = bell.y - 150;
 
 		var caveWidth = getCaveWidth(bell.y);
 		for (w in wallLayers) {
