@@ -2,7 +2,7 @@ package;
 
 import Creature.CreatureType;
 import Creature.Dir;
-import flixel.FlxCamera.FlxCameraFollowStyle;
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -22,7 +22,11 @@ class PlayState extends FlxState {
 
 	var bell:FlxSprite;
 	var tether:FlxSprite;
+
 	var ui:UI;
+
+	var defaultCamera:FlxCamera;
+	var uiCamera:FlxCamera;
 
 	var depthShader:DepthShader;
 
@@ -34,7 +38,16 @@ class PlayState extends FlxState {
 		FlxG.mouse.useSystemCursor = true;
 
 		FlxG.scaleMode = new PixelPerfectScaleMode();
-		FlxG.camera.bgColor = FlxColor.fromRGB(20, 20, 40);
+
+		defaultCamera = new FlxCamera();
+		defaultCamera.bgColor = FlxColor.fromRGB(20, 20, 40);
+		FlxG.cameras.add(defaultCamera);
+
+		uiCamera = new FlxCamera(0, 0, Util.SCREEN_WIDTH, Util.SCREEN_HEIGHT);
+		uiCamera.bgColor = FlxColor.TRANSPARENT;
+		FlxG.cameras.add(uiCamera, false);
+
+		FlxG.camera = defaultCamera;
 
 		wallLayers = [
 			new WallLayer(AssetPaths.wall_3_left__png, AssetPaths.wall_3_right__png, 2),
@@ -51,6 +64,7 @@ class PlayState extends FlxState {
 		tether.loadGraphic(AssetPaths.tether__png);
 
 		ui = new UI();
+		ui.camera = uiCamera;
 
 		// Add elements in order from back to front
 		add(creatureLayers[0]);
