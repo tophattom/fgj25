@@ -138,18 +138,18 @@ class PlayState extends FlxState {
 
 	private function spawnCreature(layer:CreatureLayer, depth:Float) {
 		var p = Math.random();
-		var type = Util.randomChoice(CREATURE_TYPES.filter((t) -> depth >= t.min_depth && p <= t.probability));
+		var type = Util.randomChoice(CREATURE_TYPES.filter((t) -> depth >= t.min_depth && depth <= t.max_depth && p <= t.probability));
 
 		if (type == null) {
 			return;
 		}
 
 		var dir = Math.random() <= 0.5 ? Dir.RIGHT : Dir.LEFT;
-		var x = dir == Dir.RIGHT ? FlxG.camera.viewLeft - 10 : FlxG.camera.viewRight + 10;
-		var y = FlxG.camera.viewTop + Math.random() * Util.SCREEN_HEIGHT;
+		var xOffset = dir == Dir.RIGHT ? -Util.SCREEN_WIDTH / 2 - type.sprite.width : Util.SCREEN_WIDTH / 2 + type.sprite.width;
+		var y = bell.y + Math.random() * Util.SCREEN_HEIGHT;
 		var speed = Util.randomBetween(type.speed_min, type.speed_max);
 
-		var creature = new Creature(x, y, new FlxPoint(speed, 0), dir);
+		var creature = new Creature(bell.x + xOffset, y, new FlxPoint(speed, 0), dir);
 		creature.loadGraphicFromSprite(type.sprite);
 		creature.alpha = type.alpha;
 

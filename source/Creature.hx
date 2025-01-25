@@ -13,6 +13,7 @@ typedef CreatureType = {
 	var speed_min:Float;
 	var speed_max:Float;
 	var min_depth:Float;
+	var max_depth:Float;
 	var probability:Float;
 	var alpha:Float;
 }
@@ -55,12 +56,18 @@ class Creature extends FlxSprite {
 		translucent.animation.add('swim', [0, 1, 2, 3, 4], 5);
 		translucent.animation.play('swim');
 
+		var leviathan = new FlxSprite();
+		leviathan.loadGraphic(AssetPaths.leviathan__png, true, 270, 200);
+		leviathan.animation.add('swim', [0, 1, 2, 3, 4, 5, 6, 7], 5);
+		leviathan.animation.play('swim');
+
 		return [
 			{
 				sprite: medusa,
 				speed_min: 7,
 				speed_max: 12,
 				min_depth: 0,
+				max_depth: 3000,
 				probability: 0.5,
 				alpha: 0.85,
 			},
@@ -69,6 +76,7 @@ class Creature extends FlxSprite {
 				speed_min: 10,
 				speed_max: 20,
 				min_depth: 0,
+				max_depth: 1000,
 				probability: 1.0,
 				alpha: 1.0,
 			},
@@ -77,6 +85,7 @@ class Creature extends FlxSprite {
 				speed_min: 15,
 				speed_max: 20,
 				min_depth: 0,
+				max_depth: 1500,
 				probability: 0.7,
 				alpha: 1.0,
 			},
@@ -84,7 +93,8 @@ class Creature extends FlxSprite {
 				sprite: whale,
 				speed_min: 5,
 				speed_max: 8,
-				min_depth: 0,
+				min_depth: 500,
+				max_depth: 4000,
 				probability: 0.3,
 				alpha: 1.0,
 			},
@@ -92,9 +102,19 @@ class Creature extends FlxSprite {
 				sprite: translucent,
 				speed_min: 10,
 				speed_max: 15,
-				min_depth: 100,
+				min_depth: 2000,
+				max_depth: 6000,
 				probability: 0.6,
 				alpha: 0.9,
+			},
+			{
+				sprite: leviathan,
+				speed_min: 3,
+				speed_max: 5,
+				min_depth: 0,
+				max_depth: 6000,
+				probability: 0.3,
+				alpha: 1.0,
 			}
 		];
 	}
