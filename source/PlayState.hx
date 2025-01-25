@@ -17,7 +17,8 @@ class PlayState extends FlxState {
 	static inline var MIN_CAVE_WIDTH = 420;
 	static inline var MAX_CAVE_WIDTH = 520;
 
-	static inline var BELL_SPEED = 10;
+	static inline var BELL_MAX_SPEED = 10;
+	static inline var BELL_ACCELERATION = 10;
 
 	var previousPixelY = 0.0;
 	var depth = 0.0;
@@ -68,6 +69,8 @@ class PlayState extends FlxState {
 
 		bell = new FlxSprite(0, 0);
 		bell.loadGraphic(AssetPaths.bell__png);
+		bell.maxVelocity.set(0, BELL_MAX_SPEED);
+		bell.drag.set(0, BELL_ACCELERATION);
 
 		tether = new FlxSprite(0, 0);
 		tether.loadGraphic(AssetPaths.tether__png);
@@ -103,9 +106,9 @@ class PlayState extends FlxState {
 		updateDepth();
 
 		if (FlxG.keys.anyPressed([S, DOWN]) && depth < GameData.MaxDepth) {
-			bell.velocity.y = BELL_SPEED;
+			bell.acceleration.set(0, BELL_ACCELERATION);
 		} else {
-			bell.velocity.y = 0;
+			bell.acceleration.set(0, 0);
 		}
 
 		titleManager.setDepth(depth, bell.y);
