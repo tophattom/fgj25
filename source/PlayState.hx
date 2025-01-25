@@ -12,8 +12,6 @@ import flixel.util.FlxColor;
 import openfl.filters.ShaderFilter;
 
 class PlayState extends FlxState {
-	static inline var CAMERA_OFFSET = -Util.SCREEN_HEIGHT / 5;
-
 	static inline var MIN_CAVE_WIDTH = 420;
 	static inline var MAX_CAVE_WIDTH = 520;
 
@@ -24,6 +22,7 @@ class PlayState extends FlxState {
 
 	var bell:FlxSprite;
 	var tether:FlxSprite;
+	var ui:UI;
 
 	var depthShader:DepthShader;
 
@@ -51,6 +50,8 @@ class PlayState extends FlxState {
 		tether = new FlxSprite(0, 0);
 		tether.loadGraphic(AssetPaths.tether__png);
 
+		ui = new UI();
+
 		// Add elements in order from back to front
 		add(creatureLayers[0]);
 		add(wallLayers[0]);
@@ -60,9 +61,10 @@ class PlayState extends FlxState {
 		add(wallLayers[2]);
 		add(tether);
 		add(bell);
+		add(ui);
 
 		FlxG.camera.follow(bell, FlxCameraFollowStyle.LOCKON);
-		FlxG.camera.targetOffset.set(0, CAMERA_OFFSET);
+		FlxG.camera.targetOffset.set(0, 0);
 
 		depthShader = new DepthShader();
 		FlxG.camera.filters = [new ShaderFilter(depthShader)];
