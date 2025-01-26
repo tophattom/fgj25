@@ -14,6 +14,8 @@ class SplashState extends FlxState {
 	override function create() {
 		super.create();
 
+		FlxG.mouse.useSystemCursor = true;
+
 		// var bg = new FlxSprite(0, 0, AssetPaths.menu_bg__png);
 		// bg.screenCenter();
 		// add(bg);
@@ -28,7 +30,7 @@ class SplashState extends FlxState {
 		credits.screenCenter(X);
 		add(credits);
 
-		var continueText = new FlxText(0, 144, 0, "Press any key to continue...");
+		var continueText = new FlxText(0, 144, 0, "Click to continue...");
 		continueText.setFormat(null, 8, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		continueText.screenCenter(X);
 		add(continueText);
@@ -41,9 +43,10 @@ class SplashState extends FlxState {
 			return;
 		}
 
-		if (FlxG.keys.firstJustPressed() != -1 || FlxG.mouse.justPressed) {
+		if (FlxG.mouse.justPressed) {
 			start();
 		}
+
 		super.update(elapsed);
 	}
 

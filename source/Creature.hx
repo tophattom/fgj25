@@ -111,8 +111,8 @@ class Creature extends FlxSprite {
 				sprite: leviathan,
 				speed_min: 3,
 				speed_max: 5,
-				min_depth: 0,
-				max_depth: 6000,
+				min_depth: 5000,
+				max_depth: 9000,
 				probability: 0.3,
 				alpha: 1.0,
 			}
