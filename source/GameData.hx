@@ -28,7 +28,7 @@ class GameData {
 				"10/13/1991\n\nThe ocean is beautiful. It's a damn shame we spend so much time collecting samples. Can't wait to go deeper.",
 				"10/13/1991\n\nMy promotion to team leader can't be far away. I know my job too well.\n\nSimmons does not."
 			],
-			radioResponse: "Copy Bathysphere, do you confirm return to surface?\n\nNo: S or N\nYes: W or Y",
+			radioResponse: "Copy\nBathysphere,\ndo you confirm\nreturn to\nsurface?\n\n(Y/N)",
 			allowReturn: true
 		},
 		{
@@ -40,7 +40,7 @@ class GameData {
 				"11/02/1991\n\nSimmons is a thorn in my side. I know damn well how to calibrate the equipment.",
 				"11/13/1991\n\nI'm held back by incompetence and politics. The chain of command won't listen.\n\nNo one listens.",
 			],
-			radioResponse: "Copy Bathysphere, do you confirm return to surface?\n\nNo: S or N\nYes: W or Y",
+			radioResponse: "Copy\nBathysphere,\ndo you confirm\nreturn to\nsurface?\n\n(Y/N)",
 			allowReturn: true
 		},
 		{
@@ -52,7 +52,7 @@ class GameData {
 				"11/26/1991\n\nI need a day off and a drink, or several. 36 days to go.",
 				"11/29/1991\n\nEveryone is coughing?\n\nFlu onboard?",
 			],
-			radioResponse: "Bathysphere, are you sure you want toreturn to surface?\n\nNo: S or N\nYes: W or Y",
+			radioResponse: "Bathysphere,\nare you sure\nyou want to\nreturn to\nsurface?\n\n(Y/N)",
 			allowReturn: true
 		},
 		{
@@ -65,7 +65,7 @@ class GameData {
 				"12/17/1991\n\nAll samples from today are unusable.\n\nWhat are we doing?",
 				"12/23/1991\n\nThe next time Simmons tries to pin the blame on me, I will snap."
 			],
-			radioResponse: "Bathysphere, are you sure you want toreturn to surface?\n\nNo: S or N\nYes: W or Y",
+			radioResponse: "Bathysphere,\nare you sure\nyou want to\nreturn to\nsurface?\n\n(Y/N)",
 			allowReturn: true
 		},
 		{
@@ -79,7 +79,7 @@ class GameData {
 				"01/16/1992\n\nMy shoulder won't heal.",
 				"01/18/1992\n\nI'm still bleeding."
 			],
-			radioResponse: "Negative.\n\nYou cannot risk the investigation at this point.\n\nContinue descent.",
+			radioResponse: "Negative.\nYou cannot risk\nthe investigation\nat this point.\n\nContinue descent.",
 			allowReturn: false
 		},
 		{
@@ -90,7 +90,7 @@ class GameData {
 				"why\n      do\n      you\n      keep on\n            descending",
 				"01/29/1992\n\nWhy haven't we starved to death?",
 			],
-			radioResponse: "Negative.\n\nYou cannot risk the investigation at this point.\n\nContinue descent.",
+			radioResponse: "Negative.\nYou cannot\nrisk the\ninvestigation\nat this point.\n\nContinue\ndescent.",
 			allowReturn: false
 		},
 		{
@@ -101,7 +101,7 @@ class GameData {
 				"02/14/1992\n\nI smashed the nav station to pieces.\n\nThey had their chance.",
 				"the\n   depths\n        \nshow\n   their\nbeauty"
 			],
-			radioResponse: "...",
+			radioResponse: "",
 			allowReturn: false
 		}
 	];

@@ -34,6 +34,8 @@ class PlayState extends FlxState {
 
 	var ui:UI;
 
+	var radioBubble:RadioBubble;
+
 	var defaultCamera:FlxCamera;
 	var uiCamera:FlxCamera;
 
@@ -82,6 +84,9 @@ class PlayState extends FlxState {
 		ui = new UI();
 		ui.camera = uiCamera;
 
+		radioBubble = new RadioBubble(216, 26);
+		radioBubble.camera = uiCamera;
+
 		// Add elements in order from back to front
 		add(creatureLayers[0]);
 		add(wallLayers[0]);
@@ -93,6 +98,7 @@ class PlayState extends FlxState {
 		add(tether);
 		add(bell);
 		add(ui);
+		add(radioBubble);
 
 		FlxG.camera.follow(bell, FlxCameraFollowStyle.NO_DEAD_ZONE);
 		FlxG.camera.targetOffset.set(0, 24);
@@ -132,6 +138,10 @@ class PlayState extends FlxState {
 			winchSound.fadeIn(1.0);
 		} else if (FlxG.keys.anyJustReleased([S, DOWN])) {
 			winchSound.fadeOut(1.0);
+		}
+
+		if (FlxG.keys.anyJustPressed([W, UP])) {
+			radioBubble.show(depth);
 		}
 
 		titleManager.setDepth(depth, bell.y);
