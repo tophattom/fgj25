@@ -53,8 +53,11 @@ class PlayState extends FlxState {
 
 	var music:FlxSound;
 	var winchSound:FlxSound;
+	var droneSound:FlxSound;
 
 	var gameOver:Bool;
+
+	var droneDepths:Array<Int> = [];
 
 	override public function create() {
 		super.create();
@@ -130,9 +133,17 @@ class PlayState extends FlxState {
 			winchSound = FlxG.sound.play(AssetPaths.winchloop__mp3, 0.0, true);
 		}
 
+		droneSound = FlxG.sound.load(AssetPaths.drone__mp3, 10);
+
 		gameOver = false;
 
 		Util.cameraFadeIn();
+
+		for (i in 0...3) {
+			droneDepths.push(Std.int(Util.randomBetween(0, GameData.MaxDepth)));
+		}
+		droneDepths.sort((a, b) -> a - b);
+		trace(droneDepths);
 	}
 
 	override public function update(elapsed:Float) {
@@ -211,6 +222,11 @@ class PlayState extends FlxState {
 			if (Math.random() < 0.006) {
 				spawnCreature(layer, depth);
 			}
+		}
+
+		if (!ascending && droneDepths.length > 0 && depth >= droneDepths[0]) {
+			droneDepths.shift();
+			droneSound.play(false, 0.0);
 		}
 	}
 
