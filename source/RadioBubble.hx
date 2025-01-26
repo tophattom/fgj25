@@ -6,6 +6,7 @@ import flixel.group.FlxSpriteContainer.FlxTypedSpriteContainer;
 import flixel.text.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
 import flixel.text.FlxText;
+import haxe.Timer;
 
 class RadioBubble extends FlxTypedSpriteContainer<FlxSprite> {
 	var bubble:FlxSprite;
@@ -38,14 +39,20 @@ class RadioBubble extends FlxTypedSpriteContainer<FlxSprite> {
 		var radioResponse = zone.radioResponse;
 
 		if (radioResponse == "") {
-			bubble.alpha = 0;
-			bubbleSmall.alpha = 1;
-			text.alpha = 0;
+			FlxG.sound.play(AssetPaths.endradio__mp3, 10);
+			Timer.delay(() -> {
+				bubble.alpha = 0;
+				bubbleSmall.alpha = 1;
+				text.alpha = 0;
+			}, 300);
 		} else {
 			text.text = zone.radioResponse;
-			bubble.alpha = 1;
-			bubbleSmall.alpha = 0;
-			text.alpha = 1;
+			FlxG.sound.play(AssetPaths.radio__mp3, 10);
+			Timer.delay(() -> {
+				bubble.alpha = 1;
+				bubbleSmall.alpha = 0;
+				text.alpha = 1;
+			}, 300);
 		}
 
 		visible = true;

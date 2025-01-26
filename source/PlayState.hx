@@ -150,7 +150,7 @@ class PlayState extends FlxState {
 			winchSound.fadeOut(1.0);
 		}
 
-		if (FlxG.keys.anyJustPressed([W, UP]) && !ascending) {
+		if (FlxG.keys.anyJustPressed([W, UP]) && !ascending && !ascendDialogOpen) {
 			radioBubble.show(depth);
 			ascendDialogOpen = true;
 		}
@@ -158,8 +158,7 @@ class PlayState extends FlxState {
 		if (ascendDialogOpen && FlxG.keys.firstJustPressed() != -1 && FlxG.keys.firstJustPressed() != W && FlxG.keys.firstJustPressed() != UP) {
 			radioBubble.hide();
 			ascendDialogOpen = false;
-			if (FlxG.keys.justPressed.Y) {
-				trace('asd');
+			if (FlxG.keys.justPressed.Y && GameData.getZone(depth).allowReturn) {
 				ascending = true;
 				bell.acceleration.set(0, -BELL_ACCELERATION);
 				bell.maxVelocity.set(0, 2 * BELL_MAX_SPEED);

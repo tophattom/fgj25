@@ -79,7 +79,7 @@ class GameData {
 				"01/16/1992\n\nMy shoulder won't heal.",
 				"01/18/1992\n\nI'm still bleeding."
 			],
-			radioResponse: "Negative.\nYou cannot risk\nthe investigation\nat this point.\n\nContinue descent.",
+			radioResponse: "Negative.\nYou cannot risk\nthe investigation\nat this point.\n\nContinue\ndescent.",
 			allowReturn: false
 		},
 		{
@@ -90,7 +90,7 @@ class GameData {
 				"why\n      do\n      you\n      keep on\n            descending",
 				"01/29/1992\n\nWhy haven't we starved to death?",
 			],
-			radioResponse: "Negative.\nYou cannot\nrisk the\ninvestigation\nat this point.\n\nContinue\ndescent.",
+			radioResponse: "",
 			allowReturn: false
 		},
 		{
