@@ -2,6 +2,7 @@ package;
 
 import Creature.CreatureType;
 import Creature.Dir;
+import MenuState.MenuVariant;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -21,7 +22,7 @@ class PlayState extends FlxState {
 	static inline var MIN_CAVE_WIDTH = 420;
 	static inline var MAX_CAVE_WIDTH = 520;
 
-	static inline var BELL_MAX_SPEED = 10;
+	static inline var BELL_MAX_SPEED = 50;
 	static inline var BELL_ACCELERATION = 10;
 
 	var previousPixelY = 0.0;
@@ -168,7 +169,7 @@ class PlayState extends FlxState {
 					music.fadeOut(1.0);
 
 					Util.cameraFadeOut(1.0, () -> {
-						FlxG.switchState(new EndGameState());
+						FlxG.switchState(new MenuState(MenuVariant.GAME_OVER));
 					});
 				}, 4000);
 			}

@@ -3,7 +3,6 @@ package;
 import flixel.FlxSprite;
 import flixel.text.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
-import flixel.text.FlxText.FlxTextAlign;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import haxe.Timer;
