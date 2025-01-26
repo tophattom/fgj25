@@ -22,7 +22,7 @@ class PlayState extends FlxState {
 	static inline var MIN_CAVE_WIDTH = 420;
 	static inline var MAX_CAVE_WIDTH = 520;
 
-	static inline var BELL_MAX_SPEED = 50;
+	static inline var BELL_MAX_SPEED = 10;
 	static inline var BELL_ACCELERATION = 10;
 
 	var previousPixelY = 0.0;
@@ -52,6 +52,8 @@ class PlayState extends FlxState {
 
 	var music:FlxSound;
 	var winchSound:FlxSound;
+
+	var gameOver:Bool;
 
 	override public function create() {
 		super.create();
@@ -99,6 +101,7 @@ class PlayState extends FlxState {
 		add(wallLayers[0]);
 		add(creatureLayers[1]);
 		add(wallLayers[1]);
+		placeAtlantis();
 		add(creatureLayers[2]);
 		add(wallLayers[2]);
 		placeLogEntries();
@@ -126,6 +129,8 @@ class PlayState extends FlxState {
 			winchSound = FlxG.sound.play(AssetPaths.winchloop__mp3, 0.0, true);
 		}
 
+		gameOver = false;
+
 		Util.cameraFadeIn();
 	}
 
@@ -134,8 +139,22 @@ class PlayState extends FlxState {
 
 		var depth = getDepth(bell.y);
 
-		if (FlxG.keys.justPressed.SPACE) {
-			openLogEntry(GameData.getZone(depth).logs[0]);
+		// Game end logic
+		if (depth == GameData.MaxDepth && !gameOver) {
+			gameOver = true;
+			Timer.delay(() -> {
+				ui.setO2Alarm(true);
+
+				FlxG.sound.play(AssetPaths.riser__mp3, 1.0, false, null, true, () -> {
+					Util.cameraFadeOut(0);
+					ui.setO2Alarm(false);
+					music.stop();
+
+					Timer.delay(() -> {
+						FlxG.switchState(new MenuState(MenuVariant.GAME_WIN));
+					}, 2000);
+				});
+			}, 5000);
 		}
 
 		if (FlxG.keys.anyPressed(Util.DOWN_KEYS) && depth < GameData.MaxDepth && !ascending) {
@@ -185,7 +204,7 @@ class PlayState extends FlxState {
 			w.setCaveWidth(caveWidth);
 		}
 
-		depthShader.setDepth(depth);
+		depthShader.setDepth(Math.min(8740, depth));
 
 		for (layer in creatureLayers) {
 			if (Math.random() < 0.006) {
@@ -260,5 +279,17 @@ class PlayState extends FlxState {
 				add(sprite);
 			}
 		}
+	}
+
+	private function placeAtlantis() {
+		var lastZoneLimits = GameData.ZonePixelLimits[GameData.ZonePixelLimits.length - 1];
+		var y = lastZoneLimits.max + 20;
+
+		var sprite = new FlxSprite();
+		sprite.loadGraphic(AssetPaths.atlantis__png);
+		sprite.setPosition(bell.x - sprite.width / 2, y);
+		sprite.scale.set(0.55, 0.55);
+
+		add(sprite);
 	}
 }

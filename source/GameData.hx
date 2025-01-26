@@ -95,7 +95,7 @@ class GameData {
 		},
 		{
 			depth: 8600,
-			depthMultiplier: 2,
+			depthMultiplier: 0.5,
 			title: "VII. THE BENTHIC ZONE",
 			logs: [
 				"02/14/1992\n\nI smashed the nav station to pieces.\n\nThey had their chance.",

@@ -48,6 +48,8 @@ class MenuState extends FlxState {
 		bg.screenCenter();
 		add(bg);
 		add(button);
+
+		Util.cameraFadeIn(1.0);
 	}
 
 	function start() {
