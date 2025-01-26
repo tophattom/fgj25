@@ -6,7 +6,7 @@ import flixel.FlxSubState;
 import flixel.text.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
 
-class LogEntry extends FlxSubState {
+class LogEntryState extends FlxSubState {
 	var bg:FlxSprite;
 	var textString:String;
 	var text:FlxBitmapText;
@@ -36,7 +36,7 @@ class LogEntry extends FlxSubState {
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if (FlxG.keys.justPressed.SPACE) {
+		if (FlxG.keys.anyJustPressed(Util.DOWN_KEYS) || FlxG.mouse.justPressed) {
 			close();
 		}
 	}

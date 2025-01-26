@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxColor;
 
 class Util {
@@ -8,6 +9,8 @@ class Util {
 	public static inline var SCREEN_HEIGHT = 180;
 
 	public static inline var FADE_DURATION = 0.33;
+
+	public static var DOWN_KEYS = [S, DOWN];
 
 	// Random integer between 0 (inclusive) and max (exclusive)
 	public static function randomInt(max:Int):Int {
@@ -20,6 +23,10 @@ class Util {
 
 	public static function randomChoice<T>(arr:Array<T>):T {
 		return arr[randomInt(arr.length)];
+	}
+
+	public static function randomBool():Bool {
+		return Math.random() < 0.5;
 	}
 
 	public static function cameraFadeOut(duration:Float = FADE_DURATION, ?onComplete:() -> Void = null) {

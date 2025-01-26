@@ -6,6 +6,7 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.input.mouse.FlxMouseEvent;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.sound.FlxSound;
@@ -20,9 +21,6 @@ class PlayState extends FlxState {
 
 	static inline var BELL_MAX_SPEED = 10;
 	static inline var BELL_ACCELERATION = 10;
-
-	var previousPixelY = 0.0;
-	var depth = 0.0;
 
 	var wallLayers:Array<WallLayer>;
 	var creatureLayers:Array<CreatureLayer>;
@@ -94,6 +92,7 @@ class PlayState extends FlxState {
 		add(wallLayers[1]);
 		add(creatureLayers[2]);
 		add(wallLayers[2]);
+		placeLogEntries();
 		add(titleManager);
 		add(tether);
 		add(bell);
@@ -122,21 +121,21 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
+		var depth = getDepth(bell.y);
+
 		if (FlxG.keys.justPressed.SPACE) {
 			openLogEntry(GameData.getZone(depth).logs[0]);
 		}
 
-		updateDepth();
-
-		if (FlxG.keys.anyPressed([S, DOWN]) && depth < GameData.MaxDepth) {
+		if (FlxG.keys.anyPressed(Util.DOWN_KEYS) && depth < GameData.MaxDepth) {
 			bell.acceleration.set(0, BELL_ACCELERATION);
 		} else {
 			bell.acceleration.set(0, 0);
 		}
 
-		if (FlxG.keys.anyJustPressed([S, DOWN])) {
+		if (FlxG.keys.anyJustPressed(Util.DOWN_KEYS)) {
 			winchSound.fadeIn(1.0);
-		} else if (FlxG.keys.anyJustReleased([S, DOWN])) {
+		} else if (FlxG.keys.anyJustReleased(Util.DOWN_KEYS)) {
 			winchSound.fadeOut(1.0);
 		}
 
@@ -189,17 +188,46 @@ class PlayState extends FlxState {
 		layer.add(creature);
 	}
 
-	// Depth in meters
-	private function updateDepth() {
-		var pixelY = bell.y;
-		var currentMultiplier = GameData.getZone(depth).depthMultiplier;
-		depth = Math.min(depth + (pixelY - previousPixelY) * currentMultiplier, GameData.MaxDepth);
-		previousPixelY = pixelY;
+	private function getDepth(y:Float):Float {
+		var zoneIndex = GameData.getZoneIndexByY(y);
+		if (zoneIndex == -1) {
+			return GameData.MaxDepth;
+		}
+
+		var zone = GameData.Zones[zoneIndex];
+		var limits = GameData.ZonePixelLimits[zoneIndex];
+		var yDiff = y - limits.min;
+		return zone.depth + yDiff * zone.depthMultiplier;
 	}
 
 	private function openLogEntry(text:String) {
-		var entry = new LogEntry(text);
+		var entry = new LogEntryState(text);
 		entry.camera = uiCamera;
 		openSubState(entry);
+	}
+
+	private function placeLogEntries() {
+		for (i in 0...GameData.Zones.length) {
+			var zone = GameData.Zones[i];
+			var yLimits = GameData.ZonePixelLimits[i];
+			var entryCount = zone.logs.length;
+			var spacing = (yLimits.max - yLimits.min) / (entryCount + 1);
+
+			for (j in 0...zone.logs.length) {
+				var y = yLimits.min + j * spacing + Util.SCREEN_HEIGHT / 2;
+				var caveWidth = getCaveWidth(getDepth(y));
+
+				var xMin = -caveWidth / 2 + 32 + 160;
+				var xMax = caveWidth / 2 - 128;
+				var x = Util.randomBetween(xMin, xMax);
+
+				var sprite = new FlxSprite(x, y);
+				sprite.loadGraphic(AssetPaths.page__png, true, 32, 32);
+				sprite.animation.add('idle', [0, 1, 2, 3, 4, 5], 4 + Util.randomInt(3), true, Util.randomBool(), Util.randomBool());
+				sprite.animation.play('idle', false, false, -1);
+				FlxMouseEvent.add(sprite, (_) -> openLogEntry(zone.logs[j]));
+				add(sprite);
+			}
+		}
 	}
 }
