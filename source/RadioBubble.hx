@@ -33,16 +33,6 @@ class RadioBubble extends FlxTypedSpriteContainer<FlxSprite> {
 		text.alpha = 0;
 	}
 
-	override public function update(elapsed:Float) {
-		super.update(elapsed);
-
-		if (FlxG.keys.firstJustPressed() != -1) {
-			bubble.alpha = 0;
-			bubbleSmall.alpha = 0;
-			text.alpha = 0;
-		}
-	}
-
 	public function show(depth:Float) {
 		var zone = GameData.getZone(depth);
 		var radioResponse = zone.radioResponse;
@@ -59,5 +49,11 @@ class RadioBubble extends FlxTypedSpriteContainer<FlxSprite> {
 		}
 
 		visible = true;
+	}
+
+	public function hide() {
+		bubble.alpha = 0;
+		bubbleSmall.alpha = 0;
+		text.alpha = 0;
 	}
 }

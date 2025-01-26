@@ -6,6 +6,7 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.input.keyboard.FlxKey;
 import flixel.input.mouse.FlxMouseEvent;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
@@ -13,6 +14,7 @@ import flixel.sound.FlxSound;
 import flixel.system.scaleModes.PixelPerfectScaleMode;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
+import haxe.Timer;
 import openfl.filters.ShaderFilter;
 
 class PlayState extends FlxState {
@@ -21,6 +23,12 @@ class PlayState extends FlxState {
 
 	static inline var BELL_MAX_SPEED = 10;
 	static inline var BELL_ACCELERATION = 10;
+
+	var previousPixelY = 0.0;
+	var depth = 0.0;
+
+	var ascendDialogOpen = false;
+	var ascending = false;
 
 	var wallLayers:Array<WallLayer>;
 	var creatureLayers:Array<CreatureLayer>;
@@ -116,6 +124,8 @@ class PlayState extends FlxState {
 		if (winchSound == null) {
 			winchSound = FlxG.sound.play(AssetPaths.winchloop__ogg, 0.0, true);
 		}
+
+		Util.cameraFadeIn();
 	}
 
 	override public function update(elapsed:Float) {
@@ -127,20 +137,41 @@ class PlayState extends FlxState {
 			openLogEntry(GameData.getZone(depth).logs[0]);
 		}
 
-		if (FlxG.keys.anyPressed(Util.DOWN_KEYS) && depth < GameData.MaxDepth) {
+		if (FlxG.keys.anyPressed(Util.DOWN_KEYS) && depth < GameData.MaxDepth && !ascending) {
 			bell.acceleration.set(0, BELL_ACCELERATION);
-		} else {
+		} else if (!ascending || (ascending && bell.y <= 0)) {
 			bell.acceleration.set(0, 0);
 		}
 
-		if (FlxG.keys.anyJustPressed(Util.DOWN_KEYS)) {
+		if (FlxG.keys.anyJustPressed(Util.DOWN_KEYS) && !ascending) {
 			winchSound.fadeIn(1.0);
-		} else if (FlxG.keys.anyJustReleased(Util.DOWN_KEYS)) {
+		} else if (FlxG.keys.anyJustReleased(Util.DOWN_KEYS) && !ascending) {
 			winchSound.fadeOut(1.0);
 		}
 
-		if (FlxG.keys.anyJustPressed([W, UP])) {
+		if (FlxG.keys.anyJustPressed([W, UP]) && !ascending) {
 			radioBubble.show(depth);
+			ascendDialogOpen = true;
+		}
+
+		if (ascendDialogOpen && FlxG.keys.firstJustPressed() != -1 && FlxG.keys.firstJustPressed() != W && FlxG.keys.firstJustPressed() != UP) {
+			radioBubble.hide();
+			ascendDialogOpen = false;
+			if (FlxG.keys.justPressed.Y) {
+				trace('asd');
+				ascending = true;
+				bell.acceleration.set(0, -BELL_ACCELERATION);
+				bell.maxVelocity.set(0, 2 * BELL_MAX_SPEED);
+				winchSound.fadeIn(1.0);
+				Timer.delay(() -> {
+					winchSound.fadeOut(1.0);
+					music.fadeOut(1.0);
+
+					Util.cameraFadeOut(1.0, () -> {
+						FlxG.switchState(new EndGameState());
+					});
+				}, 4000);
+			}
 		}
 
 		titleManager.setDepth(depth, bell.y);

@@ -30,10 +30,10 @@ class Util {
 	}
 
 	public static function cameraFadeOut(duration:Float = FADE_DURATION, ?onComplete:() -> Void = null) {
-		FlxG.camera.fade(FlxColor.BLACK, duration, false, onComplete);
+		FlxG.cameras.fade(FlxColor.BLACK, duration, false, onComplete);
 	}
 
-	public static function cameraFadeIn(duration:Float = FADE_DURATION) {
-		FlxG.camera.fade(FlxColor.BLACK, duration, true);
+	public static function cameraFadeIn(duration:Float = FADE_DURATION, ?onComplete:() -> Void = null) {
+		FlxG.cameras.fade(FlxColor.BLACK, duration, true, onComplete);
 	}
 }
