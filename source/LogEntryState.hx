@@ -1,19 +1,27 @@
 package;
 
+import GameData.LogEntry;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.text.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
+import haxe.Timer;
 
 class LogEntryState extends FlxSubState {
 	var bg:FlxSprite;
 	var textString:String;
 	var text:FlxBitmapText;
+	var sound:Null<String>;
+	var soundDelay:Null<Float>;
+	var soundVolume:Null<Float>;
 
-	public function new(textString:String) {
+	public function new(logEntry:LogEntry) {
 		super();
-		this.textString = textString;
+		this.textString = logEntry.text;
+		this.sound = logEntry.sound;
+		this.soundDelay = logEntry.soundDelay;
+		this.soundVolume = logEntry.soundVolume;
 	}
 
 	override function create() {
@@ -31,6 +39,10 @@ class LogEntryState extends FlxSubState {
 
 		add(bg);
 		add(text);
+
+		if (sound != null) {
+			Timer.delay(() -> FlxG.sound.play(sound, soundVolume == null ? 1.0 : soundVolume), soundDelay == null ? 0 : Std.int(soundDelay));
+		}
 	}
 
 	override function update(elapsed:Float) {

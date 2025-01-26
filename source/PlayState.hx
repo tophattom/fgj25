@@ -2,6 +2,7 @@ package;
 
 import Creature.CreatureType;
 import Creature.Dir;
+import GameData.LogEntry;
 import MenuState.MenuVariant;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -250,8 +251,8 @@ class PlayState extends FlxState {
 		return zone.depth + yDiff * zone.depthMultiplier;
 	}
 
-	private function openLogEntry(text:String) {
-		var entry = new LogEntryState(text);
+	private function openLogEntry(entry:LogEntry) {
+		var entry = new LogEntryState(entry);
 		entry.camera = uiCamera;
 		openSubState(entry);
 	}
