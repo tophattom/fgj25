@@ -14,7 +14,7 @@ class ZoneTitleManager extends FlxTypedSpriteContainer<FlxSprite> {
 	public function new() {
 		super();
 
-		sound = FlxG.sound.load(AssetPaths.newzone__ogg);
+		sound = FlxG.sound.load(AssetPaths.newzone__mp3);
 		sound.volume = 10;
 
 		newTitle(0);

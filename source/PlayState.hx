@@ -117,12 +117,12 @@ class PlayState extends FlxState {
 		CREATURE_TYPES = Creature.getCreatureTypes();
 
 		if (music == null) {
-			music = FlxG.sound.play(AssetPaths.ambientloop__ogg, 0.0, true);
+			music = FlxG.sound.play(AssetPaths.ambientloop__mp3, 0.0, true);
 			music.fadeIn(300, 0, 100);
 		}
 
 		if (winchSound == null) {
-			winchSound = FlxG.sound.play(AssetPaths.winchloop__ogg, 0.0, true);
+			winchSound = FlxG.sound.play(AssetPaths.winchloop__mp3, 0.0, true);
 		}
 
 		Util.cameraFadeIn();
