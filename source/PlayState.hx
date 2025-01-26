@@ -8,6 +8,8 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.effects.particles.FlxEmitter.FlxTypedEmitter;
+import flixel.effects.particles.FlxParticle;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.mouse.FlxMouseEvent;
 import flixel.math.FlxMath;
@@ -39,6 +41,7 @@ class PlayState extends FlxState {
 
 	var bell:FlxSprite;
 	var tether:FlxSprite;
+	var bubbleEmitter:FlxTypedEmitter<FlxParticle>;
 
 	var ui:UI;
 
@@ -100,6 +103,14 @@ class PlayState extends FlxState {
 		radioBubble = new RadioBubble(216, 26);
 		radioBubble.camera = uiCamera;
 
+		bubbleEmitter = new FlxTypedEmitter<FlxParticle>(bell.x, bell.y);
+		bubbleEmitter.loadParticles(AssetPaths.bubbles__png, 5, 0, true);
+		bubbleEmitter.alpha.set(0.4, 0.6);
+		bubbleEmitter.launchAngle.set(-110, -70);
+		bubbleEmitter.lifespan.set(150, 300);
+		bubbleEmitter.speed.set(5, 7);
+		bubbleEmitter.start(false, 2.47);
+
 		// Add elements in order from back to front
 		add(creatureLayers[0]);
 		add(wallLayers[0]);
@@ -110,6 +121,7 @@ class PlayState extends FlxState {
 		add(wallLayers[2]);
 		placeLogEntries();
 		add(titleManager);
+		add(bubbleEmitter);
 		add(tether);
 		add(bell);
 		add(ui);
@@ -148,6 +160,8 @@ class PlayState extends FlxState {
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
+
+		bubbleEmitter.setPosition(bell.x + bell.width / 3, bell.y + bell.height / 3);
 
 		var depth = getDepth(bell.y);
 
